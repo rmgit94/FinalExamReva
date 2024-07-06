@@ -1,26 +1,32 @@
-name: NPM Audit
+name: DevSecOps Workflow
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
 
 jobs:
-  audit:
+  component-scanning-job:
+    name: Component Scanning Job
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout the Code
+        uses: actions/checkout@v4    
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+      - name: Check the Node.js Version
+        run: node --version
 
-      - name: Install dependencies
+      - name: Install the Libraries or Node Modules
         run: npm install
 
-      - name: Run npm audit
-        run: npm audit
+      - name: Run the Component Scanning using npm audit tool
+        run: npm audit --json >> node-audit-report.json
+        # continue-on-error: true
+
+      - name: Verify the Component Scanning Report
+        run: ls -l node-audit-report.json
+      
+      - name: Upload the Component Scanning Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-audit-report
+          path: node-audit-report.json
+        if: always()
