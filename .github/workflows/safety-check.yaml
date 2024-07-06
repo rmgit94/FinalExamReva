@@ -1,0 +1,21 @@
+name: Docker NPM Audit
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: docker build -t npm-audit-image .
+
+      - name: Run npm audit in Docker
+        run: docker run -v ${{ github.workspace }}:/usr/src/app npm-audit-image npm audit
