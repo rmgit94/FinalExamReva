@@ -1,4 +1,4 @@
-name: DevSecOps Workflow
+name: devsec-workflow
 
 on:
   push:
