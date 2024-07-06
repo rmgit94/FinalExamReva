@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
 
       - name: Run Bandit analysis
         run: |
@@ -20,3 +20,4 @@ jobs:
         with:
           name: bandit-report
           path: bandit-output.json
+        if: always()
